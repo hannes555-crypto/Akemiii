@@ -57,14 +57,7 @@ function burst(n=75){if(reduceMotion)return;for(let i=0;i<n;i++)particles.push({
 function drawParticles(dt,time){particles=particles.filter(p=>p.life>0);for(const p of particles){p.life-=dt;p.vy+=50*dt;p.x+=p.vx*dt;p.y+=p.vy*dt;ctx.globalAlpha=Math.min(1,p.life);rect(p.x,p.y,p.size,Math.sin(time*5+p.spin)>0?p.size:1,p.color);}ctx.globalAlpha=1;}
 function background(time,celebrate){
   for(const star of stars){ctx.globalAlpha=.2+(Math.sin(time*(reduceMotion?0:1.1)+star.phase)+1)*.22;rect(star.x,star.y,star.size,star.size,'#e5c7ce');}ctx.globalAlpha=1;
-  // Lune en escalier et petites constellations.
-  rect(323,28,13,3,'#b9a3bb');rect(320,31,19,13,'#b9a3bb');rect(323,44,13,3,'#b9a3bb');rect(327,27,13,13,'#15121f');
-  for(const s of sparkles){const alpha=celebrate?.3+(Math.sin(time*2+s.phase)+1)*.25:.15;ctx.globalAlpha=alpha;cross(s.x,s.y,Math.sin(time+s.phase)>0?2:1,celebrate?'#f5d19b':'#9d7c9c');}ctx.globalAlpha=1;
-  rect(58,239,284,1,'#302336');rect(92,243,216,1,'#211b2d');
-  if(celebrate){
-    // Guirnalda festiva, dibujada sobre la cuadrícula de píxeles.
-    for(let i=0;i<16;i++){const x=28+i*23,y=16+Math.sin(i/15*Math.PI)*17;rect(x,y,23,1,'#71506a');if(i%2===0){for(let r=0;r<9;r++)rect(x+5+r/2,y+2+r,10-r,1,colors[(i/2)%colors.length]);}}
-  }
+  for(const star of sparkles){ctx.globalAlpha=.15+(Math.sin(time*.8+star.phase)+1)*.15;cross(star.x,star.y,1,'#f5d19b');}ctx.globalAlpha=1;
 }
 // La primera página solo muestra fuego sobre negro absoluto.
 function lonelyFire(time) {
@@ -102,19 +95,24 @@ if(!isBirthday){
     if(state!=='intro')return;
     state='lighting';started=elapsed;$('candle').disabled=true;
     document.body.classList.add('leaving');$('hint').textContent='Gracias por ser esa luz.';
-    setTimeout(()=>{window.location.href='birthday.html?v=20261007-5';},reduceMotion?100:1450);
+    setTimeout(()=>{window.location.href='birthday.html?v=20261007-6';},reduceMotion?100:1450);
   });
   // El navegador puede restaurar la página desde su caché al retroceder.
   window.addEventListener('pageshow',()=>{state='intro';document.body.classList.remove('leaving');$('candle').disabled=false;$('hint').textContent='Toca la luz. Esto es para ti.';});
 }else{
   const envelope=$('openLetter'),dialog=$('letterDialog');
-  LETTER_PARAGRAPHS.forEach(text=>{const p=document.createElement('p');p.textContent=text;$('letterBody').append(p);});
-  $('blankLetter').hidden=LETTER_PARAGRAPHS.length>0;
+  function restoreLetter(){
+    $('letterBody').replaceChildren();
+    LETTER_PARAGRAPHS.forEach(text=>{const p=document.createElement('p');p.textContent=text;$('letterBody').append(p);});
+    $('blankLetter').hidden=true;
+  }
+  restoreLetter();
   function openEnvelope(){
     if(envelope.disabled)return;
+    restoreLetter();
     envelope.disabled=true;envelope.classList.add('opening');
     if(musicOn)playNotes([76,79,84],.14);
-    setTimeout(()=>{dialog.showModal();$('closeLetter').focus();},reduceMotion?0:650);
+    setTimeout(()=>{dialog.showModal();dialog.scrollTop=0;$('closeLetter').focus({preventScroll:true});},reduceMotion?0:650);
   }
   envelope.addEventListener('click',openEnvelope);
   $('readLetter').addEventListener('click',openEnvelope);

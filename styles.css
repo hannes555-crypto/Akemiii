@@ -18,3 +18,16 @@ body[data-page=birthday]{background:radial-gradient(ellipse at 50% 42%,#32172966
 @keyframes sky-breathe{from{opacity:.35}to{opacity:.8}}
 @media(prefers-reduced-motion:reduce){body::before,body::after{animation:none}}
 .night,.birthday{position:relative;z-index:1}
+/* Carta de papel cálido y tipografía editorial. */
+.letter-paper{padding:52px 40px 28px;border:1px solid #d7bca6;border-radius:3px;background:#fcf3e5;background-image:linear-gradient(110deg,#ffffff55,transparent 50%,#b78b6310);box-shadow:inset 0 0 60px #d5b59316}
+.letter-paper h2{font-family:Georgia,'Times New Roman',serif;font-style:italic;font-size:31px;color:#754c57;margin:0 0 26px}
+.letter-body{font-family:Georgia,'Times New Roman',serif;font-size:17px;line-height:1.85;color:#59484a;white-space:normal;letter-spacing:.1px}
+.letter-body p{margin:0 0 21px}.letter-label{font-family:var(--mono);font-size:9px;letter-spacing:2.6px}.letter-heart{font-family:Georgia,serif;font-size:38px;color:#b76b87}.close-letter{position:sticky;display:block;margin:-34px -23px 2px auto;top:0;right:auto;width:34px;background:#fcf3e5ee;border-radius:50%;z-index:1}
+body[data-page=birthday]{background:radial-gradient(ellipse at 20% 24%,#54446824,transparent 45%),radial-gradient(ellipse at 80% 60%,#a15a7020,transparent 45%),radial-gradient(ellipse at 50% 60%,#312640,transparent 70%),#0b0b17}
+.cake-space::before{content:'';position:absolute;inset:22% 5% 5%;z-index:-1;border-radius:50%;background:radial-gradient(ellipse,#a76d8620,transparent 65%);filter:blur(20px)}
+.streamers{position:fixed;height:100svh;z-index:0}.party-spark{position:absolute;width:4px;height:11px;border-radius:1px;opacity:0;animation:party-drift 7s ease-in-out infinite;box-shadow:0 0 8px #ffe7cd15}
+.party-spark:nth-child(3n){width:3px;height:3px;border-radius:50%}.party-spark:nth-child(4n){width:9px;height:2px}
+@keyframes party-drift{0%{opacity:0;transform:translateY(-28px) rotate(0deg)}20%,65%{opacity:.65}100%{opacity:0;transform:translateY(110px) rotate(170deg)}}
+.burn-dialog canvas{image-rendering:auto}.burn-caption{font-family:Georgia,serif;font-size:clamp(16px,3vw,21px);color:#e3d2de;letter-spacing:.1px;bottom:72px}.burn-caption.abstracted{text-shadow:-1px 0 #b24d7a,1px 0 #537e8a}
+@media(max-width:600px){.letter-paper{padding:43px 25px 24px}.letter-body{font-size:16px;line-height:1.8}.letter-paper h2{font-size:28px}.close-letter{margin-right:-12px}.party-spark{width:3px;height:7px}}
+@media(prefers-reduced-motion:reduce){.party-spark{animation:none;opacity:.35}}
