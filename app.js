@@ -2,11 +2,10 @@
 // Cambia aquí el nombre y los mensajes de cumpleaños.
 // Tu carta: cada elemento de esta lista es un párrafo.
 const LETTER_PARAGRAPHS = [
-  "Gracias por ser una de mis mejores amigas este 2026. Gracias por todas las nuevas experiencias: comer con los chicos, estudiar juntos e ir a tu casa a hablar.",
-  "Antes de conocerte, mi vida universitaria era muy aburrida, pero desde que llegaste cambió mucho.",
-  "Puede que no pasemos muchas materias juntos y que el próximo año ya no nos veamos, pero si necesitas o quieres algo, puedes decírmelo.",
-  "No soy muy bueno en demasiadas cosas, pero, si puedo ayudarte, aunque sea solo escuchándote, estaré ahí para ti.",
-  "¡Feliz cumpleaños, Akemi, amiga mía! Te quiero un montón."
+  "Gracias por ser una amiga tan increíble. Me llevo con mucho cariño cada momento contigo: comer juntos, estudiar juntos, hacer los proyectos juntos y pasar tiempo en tu casa.",
+  "Me has ayudado más de lo que crees. No sé cómo explicarlo ni cómo decirlo, pero solo quería decirte, simplemente: gracias.",
+  "Si necesitas algo o quieres pedirme algo, no dudes en decírmelo. Estaré ahí para ti. A pesar de no ser muy bueno en muchas cosas, aunque sea solo para escucharte, estaré ahí para apoyarte.",
+  "¡Feliz cumpleaños, Akemi! Te quiero un montón."
 ];
 const isBirthday = document.body.dataset.page === 'birthday';
 const $ = (id) => document.getElementById(id);
@@ -95,7 +94,7 @@ if(!isBirthday){
     if(state!=='intro')return;
     state='lighting';started=elapsed;$('candle').disabled=true;
     document.body.classList.add('leaving');$('hint').textContent='Gracias por ser esa luz.';
-    setTimeout(()=>{window.location.href='birthday.html?v=20261007-8';},reduceMotion?100:1450);
+    setTimeout(()=>{window.location.href='birthday.html?v=20261007-10';},reduceMotion?100:1450);
   });
   // El navegador puede restaurar la página desde su caché al retroceder.
   window.addEventListener('pageshow',()=>{state='intro';document.body.classList.remove('leaving');$('candle').disabled=false;$('hint').textContent='Toca la luz. Esto es para ti.';});

@@ -40,3 +40,6 @@ body[data-page=birthday]{background:radial-gradient(ellipse at 20% 24%,#54446824
 /* Una sola familia y estilo en todas las partes textuales de la carta. */
 .letter-paper,.letter-paper h2,.letter-body,.letter-body p,.letter-label,.paper-peek{font-family:'Carta Cursiva',cursive;font-style:italic;font-weight:400;font-synthesis:none}
 .letter-label{font-size:21px;letter-spacing:.4px;text-transform:none}.paper-peek{font-size:20px;padding-top:14px}.letter-heart,.close-letter{font-family:Georgia,serif;font-style:normal}
+
+/* Un corazón de tinta rosa al pie de la carta. */
+.keepsake-heart{margin:22px auto 4px;width:140px;height:95px}.keepsake-heart svg{display:block;width:100%;height:100%;overflow:visible}.heart-shape{fill:url(#heartTint);stroke:#a75c79;stroke-width:1.7;stroke-linejoin:round}.heart-orbit{fill:none;stroke:#d2b2a2;stroke-width:1;stroke-linecap:round}.heart-highlight{fill:none;stroke:#fff2e5;stroke-width:2.4;stroke-linecap:round}.heart-spark{fill:none;stroke:#bd8b76;stroke-width:1.2;stroke-linecap:round}.heart-beat{transform-box:fill-box;transform-origin:center;animation:keepsake-pulse 3.6s ease-in-out infinite}@keyframes keepsake-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.045)}}@media(prefers-reduced-motion:reduce){.heart-beat{animation:none}}

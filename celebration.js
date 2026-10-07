@@ -123,7 +123,7 @@ if (document.body.dataset.page === 'birthday') {
         c.globalAlpha=intensity*.04;for(let yy=0;yy<H;yy+=5)box(0,yy,W,1,'#8e5c9a');c.globalAlpha=1;
       }
       cracks(t);
-      get('burnCaption').textContent = t<contact ? '¿De verdad la vas a quemar…?' : consumed<1 ? 'Hay cosas que el fuego no puede borrar.' : attempts===1 ? 'Parece que esta carta quiere volver a ti.' : 'Esta vez… mejor ábrela. ♡';
+      get('burnCaption').textContent = '¿Por qué me odias? 😭😭😭';
       get('burnCaption').classList.toggle('abstracted',intensity>.5);
       if(t>=duration){finish();return;}
       queueFrame();
@@ -141,7 +141,7 @@ if (document.body.dataset.page === 'birthday') {
     get('burnLetter').addEventListener('click',()=>{
       if(active||attempts>=2)return;
       attempts++;runId++;cancelAnimationFrame(raf);raf=null;active=true;start=null;intensity=0;resize();
-      get('burnCaption').textContent='¿De verdad la vas a quemar…?';
+      get('burnCaption').textContent = '¿Por qué me odias? 😭😭😭';
       get('burnCaption').classList.remove('abstracted');
       get('openLetter').disabled=true;get('readLetter').disabled=true;get('burnLetter').disabled=true;
       document.body.classList.add('abstraction','burning-letter');
