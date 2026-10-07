@@ -21,10 +21,7 @@ if (document.body.dataset.page === 'birthday') {
       canvas.width = W; canvas.height = H; c.imageSmoothingEnabled = true;
     }
     window.addEventListener('resize', resize);
-    const eyes = Array.from({length:28}, (_,i) => ({
-      x: .06 + ((i * .381966) % .88), y: .05 + ((i * .23713) % .72),
-      size: 7 + (i % 4) * 3, phase: i * 1.7
-    }));
+    const eyes=[{x:.17,y:.22,size:15,at:2.1},{x:.82,y:.38,size:13,at:2.85},{x:.29,y:.57,size:12,at:3.6},{x:.72,y:.16,size:16,at:4.35},{x:.85,y:.64,size:12,at:5.1},{x:.12,y:.42,size:14,at:5.85}];
     function box(x,y,w,h,color){c.fillStyle=color;c.fillRect(Math.round(x),Math.round(y),Math.ceil(w),Math.ceil(h));}
     function eye(x,y,r,t,i){
       r*=Math.max(1,W/440);
@@ -48,29 +45,29 @@ if (document.body.dataset.page === 'birthday') {
       }
       for(let i=0;i<25&&!reduced;i++){const a=(t*.25+i/25)%1;c.globalAlpha=(1-a)*.8;box(W/2+Math.sin(i*2+t)*34*u,floor-15*u-a*130*u,2,2,'#ffb36d');}c.globalAlpha=1;
     }
-    // Fracturas ramificadas que se propagan desde el punto de impacto.
+    // Impactos independientes que rompen distintas zonas en momentos distintos.
+    const impacts=[{x:.04,y:.15,angle:.55,at:2.9,reach:.48},{x:.96,y:.3,angle:2.8,at:4,reach:.45},{x:.19,y:.95,angle:-1.15,at:5.1,reach:.48},{x:.76,y:.02,angle:1.9,at:6.15,reach:.36}];
+    function fracturePath(points,amount,width,alpha){
+      if(amount<=0)return;
+      const steps=Math.min(points.length-1,amount*(points.length-1));
+      c.beginPath();c.moveTo(points[0].x,points[0].y);
+      for(let j=1;j<=Math.ceil(steps);j++){const f=Math.min(1,steps-j+1),a=points[j-1],b=points[j];c.lineTo(a.x+(b.x-a.x)*f,a.y+(b.y-a.y)*f);}
+      c.lineWidth=width+1.4;c.strokeStyle=`rgba(0,0,0,${alpha*.75})`;c.stroke();c.lineWidth=width;c.strokeStyle=`rgba(208,218,231,${alpha})`;c.stroke();
+    }
     function cracks(t){
-      const progress=Math.min(1,Math.max(0,(t-(reduced?1:3.1))/(reduced?.5:2)));
-      if(progress===0)return;
-      const cx=W*.5,cy=H*.46,R=Math.hypot(W,H),count=17;
-      c.save();
-      for(let i=0;i<count;i++){
-        const angle=i*Math.PI*2/count+.11*Math.sin(i*2),len=R*(.52+.12*Math.sin(i));
-        const pts=[{x:cx,y:cy}];
-        for(let j=1;j<=6;j++){const r=len*j/6;pts.push({x:cx+Math.cos(angle+.06*Math.sin(i+j*4))*r,y:cy+Math.sin(angle+.06*Math.sin(i+j*4))*r});}
-        const steps=Math.min(6,progress*6);
-        c.beginPath();c.moveTo(cx,cy);
-        for(let j=1;j<=Math.ceil(steps);j++){const f=Math.min(1,steps-j+1);c.lineTo(pts[j-1].x+(pts[j].x-pts[j-1].x)*f,pts[j-1].y+(pts[j].y-pts[j-1].y)*f);}
-        c.strokeStyle='rgba(196,210,232,.65)';c.lineWidth=.9;c.shadowColor='#b8b9ef';c.shadowBlur=3;c.stroke();c.shadowBlur=0;
-        for(let j=1;j<Math.floor(steps);j++){
-          const a=angle+(j%2?.52:-.42),r=len*.12;
-          c.beginPath();c.moveTo(pts[j].x,pts[j].y);c.lineTo(pts[j].x+Math.cos(a)*r*.5,pts[j].y+Math.sin(a)*r*.5);c.lineTo(pts[j].x+Math.cos(a+.15)*r,pts[j].y+Math.sin(a+.15)*r);c.strokeStyle='#a998ba66';c.lineWidth=.65;c.stroke();
+      const R=Math.min(W,H);
+      impacts.forEach((hit,k)=>{
+        const age=t-(reduced?.85+k*.38:hit.at);if(age<=0)return;
+        const growth=Math.min(1,age/(reduced?.25:1.2)),origin={x:W*hit.x,y:H*hit.y};
+        c.save();c.lineJoin='round';c.lineCap='round';
+        for(let arm=0;arm<3;arm++){
+          const angle=hit.angle+(arm-1)*.7,length=R*hit.reach*(arm===1?1.5:.75+arm*.16),pts=[origin];
+          for(let j=1;j<=8;j++){const d=length*j/8,jag=Math.sin(j*2.4+arm*1.8+k)*length*.075;pts.push({x:origin.x+Math.cos(angle)*d+Math.cos(angle+Math.PI/2)*jag,y:origin.y+Math.sin(angle)*d+Math.sin(angle+Math.PI/2)*jag});}
+          const local=Math.max(0,growth-arm*.12);fracturePath(pts,local,.8,arm===1?.73:.42);
+          for(let j=2;j<=6;j+=2){const branch=Math.max(0,Math.min(1,(local-j/8)*4));if(!branch)continue;const a=pts[j],dir=angle+(j%4===0?-.65:.8),len=length*.18;fracturePath([a,{x:a.x+Math.cos(dir)*len*.5,y:a.y+Math.sin(dir)*len*.5},{x:a.x+Math.cos(dir+.3)*len,y:a.y+Math.sin(dir+.3)*len}],branch,.45,.42);}
         }
-        if(progress>.5){
-          c.beginPath();c.moveTo(cx,cy);c.lineTo(cx+Math.cos(angle)*R*progress,cy+Math.sin(angle)*R*progress);c.lineTo(cx+Math.cos(angle+.14)*R*progress,cy+Math.sin(angle+.14)*R*progress);c.closePath();c.fillStyle=i%3===0?'#bbaccb0c':'#00000016';c.fill();
-        }
-      }
-      c.restore();
+        c.globalAlpha=Math.min(1,age*3)*.45;c.beginPath();c.moveTo(origin.x-3,origin.y);c.lineTo(origin.x+5,origin.y-4);c.lineTo(origin.x+2,origin.y+7);c.closePath();c.fillStyle='#c6c1d1';c.fill();c.restore();
+      });
     }
     function draw(ms){
       if(!active)return;
@@ -89,8 +86,10 @@ if (document.body.dataset.page === 'birthday') {
       }
       c.globalAlpha=1;
       eyes.forEach((e,i)=>{
-        const a=Math.max(0,Math.min(1,(intensity-i/38)*2.3));
-        c.globalAlpha=a*.9;if(a>0)eye(e.x*W,e.y*H,e.size,t,i);
+        const age=t-(reduced?.8+i*.3:e.at),life=reduced?.65:1.9;
+        if(age<=0||age>=life)return;
+        const fadeIn=Math.min(1,age/(reduced?.2:.55)),fadeOut=Math.min(1,(life-age)/.6);
+        c.globalAlpha=fadeIn*fadeOut*.82;c.save();c.translate(e.x*W,e.y*H);c.scale(1,.15+.85*fadeIn);eye(0,0,e.size,t,i);c.restore();
       });c.globalAlpha=1;
       const descent=Math.min(1,t/contact);
       const y=H*.24+(H*.77-16-H*.24)*(1-Math.pow(1-descent,2));

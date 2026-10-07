@@ -31,3 +31,8 @@ body[data-page=birthday]{background:radial-gradient(ellipse at 20% 24%,#54446824
 .burn-dialog canvas{image-rendering:auto}.burn-caption{font-family:Georgia,serif;font-size:clamp(16px,3vw,21px);color:#e3d2de;letter-spacing:.1px;bottom:72px}.burn-caption.abstracted{text-shadow:-1px 0 #b24d7a,1px 0 #537e8a}
 @media(max-width:600px){.letter-paper{padding:43px 25px 24px}.letter-body{font-size:16px;line-height:1.8}.letter-paper h2{font-size:28px}.close-letter{margin-right:-12px}.party-spark{width:3px;height:7px}}
 @media(prefers-reduced-motion:reduce){.party-spark{animation:none;opacity:.35}}
+/* Cursiva caligráfica incluida en el proyecto para que se vea igual sin Internet. */
+@font-face{font-family:'Carta Cursiva';src:url('fonts/carta-cursiva.woff') format('woff');font-style:italic;font-weight:400;font-display:swap}
+.letter-body{font-family:'Carta Cursiva','Segoe Print','Bradley Hand',cursive;font-style:italic;font-size:26px;line-height:1.42;letter-spacing:.1px;color:#59414a}
+.letter-body p{margin:0 0 22px}.letter-paper h2{font-family:'Carta Cursiva','Segoe Print',cursive;font-style:italic;font-size:37px;line-height:1.2}.letter-heart{font-family:Georgia,serif;font-style:normal}
+@media(max-width:600px){.letter-body{font-size:24px;line-height:1.45}.letter-paper h2{font-size:33px}}
