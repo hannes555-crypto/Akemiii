@@ -14,9 +14,12 @@ Mantén los cinco archivos del sitio en la misma carpeta.
 ## Actualizar GitHub
 Reemplaza los archivos anteriores por index.html, birthday.html, styles.css, app.js y celebration.js en la carpeta publicada del repositorio. Sube los archivos descomprimidos. Conserva los cinco juntos. En esta versión debes subir también celebration.js.
 
-## Carta pendiente
-El sobre ya se abre y cierra. Por ahora la hoja tiene el encabezado «Querida Akemi,» y líneas vacías. El texto se añadirá cuando lo envíes.
-En app.js, LETTER_PARAGRAPHS es una lista: cada texto entre comillas se muestra como un párrafo. Usa una lista vacía para dejar la carta sin contenido.
+## Carta
+La carta ya contiene tu mensaje para Akemi, con ortografía y puntuación corregidas. El corazón al final se conserva. Puedes editar los párrafos en LETTER_PARAGRAPHS, al principio de app.js.
+
+## Si no aparecen la celebración o los botones
+Reemplaza TODOS los archivos del sitio, especialmente birthday.html: subir celebration.js solo no hace que un HTML antiguo lo utilice. Los cinco archivos deben estar juntos en la carpeta publicada.
+Esta versión añade un identificador a las referencias CSS/JS para renovar la caché. Una vez publicados los cambios, recarga con Ctrl+F5. Si sigue igual, revisa que GitHub haya terminado de publicar el último cambio.
 
 ## Animación
 La llama ya está encendida sobre negro. Al tocarla se expande la luz y se abre la segunda página. El pastel aparece con rayos, cuatro ráfagas de confeti y velitas animadas. A continuación aparece un sobre flotante y las opciones «Quemarla» y «Abrirla». Al quemarla, cae al fuego, se consume por píxeles y aparecen ojos y distorsiones cada vez más intensas. Tras la primera quema vuelven ambas opciones. Tras la segunda solo queda un botón grande para abrirla. El número de intentos se reinicia al recargar la página. La animación se puede saltar o cerrar con Escape, y cuenta como intento. Al abrir la carta se levanta la solapa y se muestra la hoja; se cierra con la cruz o Escape.
