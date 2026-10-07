@@ -1,30 +1,17 @@
-# Para Akemi · Una luz en la oscuridad
+# Cumpleaños de Akemi · Versión 11
 
-## Abrir
-Descomprime el ZIP. Abre index.html y toca la llama: irá a birthday.html.
-Mantén los cinco archivos del sitio en la misma carpeta.
+Descomprime el ZIP y sube TODOS estos archivos a la misma carpeta de tu repositorio:
+- index.html
+- birthday.html
+- styles-v11.css
+- app-v11.js
+- celebration-v11.js
 
-## Archivos
-- index.html: pantalla negra, frase y llama interactiva.
-- birthday.html: pastel, celebración y sobre con carta.
-- styles.css: estilos separados, transición de luz y animación del sobre.
-- app.js: dibujo en Canvas, fuego, partículas, navegación, carta y música opcional.
-- celebration.js: confeti lateral, elección de la carta, fuego fluido, ojos y rotura de pantalla.
+Reemplaza index.html y birthday.html: son los que cargan los nuevos estilos y scripts.
+Los nombres nuevos evitan que se reutilicen scripts antiguos. Los archivos app.js, styles.css y celebration.js de versiones anteriores ya no se usan.
 
-## Actualizar GitHub
-Reemplaza los archivos anteriores por index.html, birthday.html, styles.css, app.js y celebration.js en la carpeta publicada del repositorio. Sube los archivos descomprimidos. Conserva los cinco archivos juntos. La fuente ya está incluida dentro de styles.css. En esta versión debes subir también celebration.js.
+La fuente está incrustada en styles-v11.css. La carpeta fonts conserva una copia y su licencia.
 
-## Carta
-La carta ya contiene tu mensaje para Akemi, con ortografía y puntuación corregidas. Usa una sola fuente caligráfica cursiva, incrustada directamente en styles.css, para el título, los párrafos, el encabezado y el sobre. La copia y licencia de la fuente se conservan en fonts. Su contenido está en HTML y se restaura desde los párrafos al abrirla, también después de las dos quemas. El corazón al final es ahora una ilustración en rosa con una animación suave. Puedes editar los párrafos en LETTER_PARAGRAPHS, al principio de app.js.
+Cambios: se quitó el texto superior a la felicitación; el texto inferior ahora dice «Gracias por hacer mis días más bonitos. Hoy te toca sonreír a ti. ♡». La carta contiene el mensaje que empieza «Gracias por ser una amiga tan increíble». Durante ambas quemas aparece «¿Por qué me odias? 😭😭😭». Hay tres oleadas de distorsión, ojos espaciados y grietas desde varios puntos.
 
-## Si no aparecen la celebración o los botones
-Reemplaza TODOS los archivos del sitio, especialmente birthday.html: subir celebration.js solo no hace que un HTML antiguo lo utilice. Los cinco archivos deben estar juntos en la carpeta publicada.
-Esta versión añade un identificador a las referencias CSS/JS para renovar la caché. Una vez publicados los cambios, recarga con Ctrl+F5. Si sigue igual, revisa que GitHub haya terminado de publicar el último cambio.
-
-## Animación
-La llama ya está encendida sobre un cielo oscuro. Al tocarla se expande la luz y se abre la segunda página. El pastel aparece con rayos, cuatro ráfagas de confeti y velitas animadas. A continuación aparece un sobre flotante y las opciones «Quemarla» y «Abrirla». Al quemarla, cae al fuego, se consume por píxeles y aparecen ojos y distorsiones, con grietas que nacen en cuatro puntos distintos, uno después del otro. Hay seis ojos en toda la secuencia, con aparición y desvanecimiento escalonados; como máximo coinciden tres. Tras la primera quema vuelven ambas opciones. Tras la segunda solo queda un botón grande para abrirla. El número de intentos se reinicia al recargar la página. La animación se puede saltar o cerrar con Escape, y cuenta como intento. Al abrir la carta se levanta la solapa y se muestra la hoja; se cierra con la cruz o Escape.
-
-La música se activa voluntariamente en la segunda página. Se respeta la preferencia del dispositivo de reducir el movimiento.
-
-## Verificación
-Sintaxis de JavaScript, dibujo de Canvas, dos ciclos completos de quema, bloqueo del tercer intento y apertura/cierre final y conservación de los cuatro párrafos comprobados. Se comparó también la imagen de ambas quemas al mismo tiempo de animación y se comprobó que un cierre tardío de la primera no interrumpe la segunda, también con movimiento reducido. El diseño completo todavía no se ha verificado en un navegador real.
+Comprobados en ejecución: texto nuevo, dos quemas y apertura de carta. No se ha verificado el diseño completo en un navegador real.
