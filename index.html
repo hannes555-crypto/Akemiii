@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#100e1c">
+  <title>Una pequeña magia · Akemi</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <main class="game" id="game" data-stage="intro">
+    <header class="topbar"><a href="./" aria-label="Volver al inicio" class="brand"><span>✦</span> LITTLE BIRTHDAY</a><button id="sound" class="sound" aria-pressed="false" aria-label="Activar música">♫ <span>SONIDO OFF</span></button></header>
+    <section class="experience" aria-label="Sorpresa de cumpleaños">
+      <div class="chapter"><span></span><p id="chapter">CAPÍTULO 01 · UNA PEQUEÑA MAGIA</p><span></span></div>
+      <div class="heading" aria-live="polite"><p class="kicker" id="kicker">Hay una sorpresa esperándote</p><h1 id="title">Todo empieza<br>con una <em>chispa.</em></h1><p class="subtitle" id="subtitle">A veces, una pequeña luz lo cambia todo.</p></div>
+      <div class="art" id="art"><canvas id="world" width="400" height="270" aria-label="Una vela de píxeles sobre un candelabro, bajo un cielo nocturno"></canvas><button id="candle" class="candle-target" aria-label="Toca la vela para descubrir tu sorpresa"><span>✧</span></button><span class="art-corner tl"></span><span class="art-corner tr"></span><span class="art-corner bl"></span><span class="art-corner br"></span></div>
+      <div class="actions"><button id="action" class="primary"><span id="actionText">ENCENDER LA VELITA</span><span aria-hidden="true">↗</span></button><p class="hint" id="hint">Toca la vela · guarda un deseo</p></div>
+      <div class="wish" id="wish" hidden><p>Que la vida te regale tantas cosas bonitas<br>como las que tú le regalas al mundo.</p><span>Hoy todas las estrellas brillan por ti. ♡</span></div>
+      <button class="replay" id="replay" hidden>↺ Volver al principio</button>
+    </section>
+    <footer><span>HECHO DE PÍXELES & CARIÑO</span><span>PARA AKEMI <b>♡</b></span></footer>
+  </main>
+</body>
+</html>
