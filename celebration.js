@@ -13,7 +13,7 @@ if (document.body.dataset.page === 'birthday') {
       piece.style.rotate=`${i*37}deg`;get('streamers').append(piece);
     }
     const modal = get('burnDialog'), canvas = get('burnCanvas'), c = canvas.getContext('2d');
-    let attempts = 0, active = false, start = null, raf = null, intensity = 0;
+    let attempts = 0, active = false, start = null, raf = null, intensity = 0, runId = 0;
     let W = 400, H = 300;
     function resize() {
       W = Math.min(960, Math.max(390, Math.round(innerWidth)));
@@ -69,6 +69,10 @@ if (document.body.dataset.page === 'birthday') {
         c.globalAlpha=Math.min(1,age*3)*.45;c.beginPath();c.moveTo(origin.x-3,origin.y);c.lineTo(origin.x+5,origin.y-4);c.lineTo(origin.x+2,origin.y+7);c.closePath();c.fillStyle='#c6c1d1';c.fill();c.restore();
       });
     }
+    function queueFrame(){
+      const thisRun=runId;
+      raf=requestAnimationFrame(ms=>{if(active&&thisRun===runId)draw(ms);});
+    }
     function draw(ms){
       if(!active)return;
       if(start===null) start=ms;
@@ -122,10 +126,10 @@ if (document.body.dataset.page === 'birthday') {
       get('burnCaption').textContent = t<contact ? '¿De verdad la vas a quemar…?' : consumed<1 ? 'Hay cosas que el fuego no puede borrar.' : attempts===1 ? 'Parece que esta carta quiere volver a ti.' : 'Esta vez… mejor ábrela. ♡';
       get('burnCaption').classList.toggle('abstracted',intensity>.5);
       if(t>=duration){finish();return;}
-      raf=requestAnimationFrame(draw);
+      queueFrame();
     }
     function finish(){
-      if(!active)return;active=false;cancelAnimationFrame(raf);start=null;
+      if(!active)return;active=false;runId++;cancelAnimationFrame(raf);raf=null;start=null;intensity=0;
       document.body.classList.remove('abstraction','burning-letter');
       if(modal.open)modal.close();
       get('openLetter').disabled=false;get('readLetter').disabled=false;
@@ -136,13 +140,16 @@ if (document.body.dataset.page === 'birthday') {
     }
     get('burnLetter').addEventListener('click',()=>{
       if(active||attempts>=2)return;
-      attempts++;active=true;start=null;resize();
+      attempts++;runId++;cancelAnimationFrame(raf);raf=null;active=true;start=null;intensity=0;resize();
+      get('burnCaption').textContent='¿De verdad la vas a quemar…?';
+      get('burnCaption').classList.remove('abstracted');
       get('openLetter').disabled=true;get('readLetter').disabled=true;get('burnLetter').disabled=true;
       document.body.classList.add('abstraction','burning-letter');
-      modal.showModal();get('skipBurn').focus({preventScroll:true});raf=requestAnimationFrame(draw);
+      modal.showModal();get('skipBurn').focus({preventScroll:true});queueFrame();
     });
     get('skipBurn').addEventListener('click',finish);
     modal.addEventListener('cancel',event=>{event.preventDefault();finish();});
-    modal.addEventListener('close',finish);
+    // Un evento de cierre pendiente de la primera quema no cancela la segunda.
+    modal.addEventListener('close',()=>{if(!modal.open&&active)finish();});
   })();
 }

@@ -95,7 +95,7 @@ if(!isBirthday){
     if(state!=='intro')return;
     state='lighting';started=elapsed;$('candle').disabled=true;
     document.body.classList.add('leaving');$('hint').textContent='Gracias por ser esa luz.';
-    setTimeout(()=>{window.location.href='birthday.html?v=20261007-7';},reduceMotion?100:1450);
+    setTimeout(()=>{window.location.href='birthday.html?v=20261007-8';},reduceMotion?100:1450);
   });
   // El navegador puede restaurar la página desde su caché al retroceder.
   window.addEventListener('pageshow',()=>{state='intro';document.body.classList.remove('leaving');$('candle').disabled=false;$('hint').textContent='Toca la luz. Esto es para ti.';});

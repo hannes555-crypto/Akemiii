@@ -12,10 +12,10 @@ Mantén los cinco archivos del sitio en la misma carpeta.
 - celebration.js: confeti lateral, elección de la carta, fuego fluido, ojos y rotura de pantalla.
 
 ## Actualizar GitHub
-Reemplaza los archivos anteriores por index.html, birthday.html, styles.css, app.js y celebration.js en la carpeta publicada del repositorio. Sube los archivos descomprimidos. Conserva los cinco juntos y sube también la carpeta fonts completa. En esta versión debes subir también celebration.js.
+Reemplaza los archivos anteriores por index.html, birthday.html, styles.css, app.js y celebration.js en la carpeta publicada del repositorio. Sube los archivos descomprimidos. Conserva los cinco archivos juntos. La fuente ya está incluida dentro de styles.css. En esta versión debes subir también celebration.js.
 
 ## Carta
-La carta ya contiene tu mensaje para Akemi, con ortografía y puntuación corregidas. Usa una fuente caligráfica cursiva incluida en fonts/carta-cursiva.woff sobre papel cálido. Su contenido está en HTML y se restaura desde los párrafos al abrirla, también después de las dos quemas. El corazón al final se conserva. Puedes editar los párrafos en LETTER_PARAGRAPHS, al principio de app.js.
+La carta ya contiene tu mensaje para Akemi, con ortografía y puntuación corregidas. Usa una sola fuente caligráfica cursiva, incrustada directamente en styles.css, para el título, los párrafos, el encabezado y el sobre. La copia y licencia de la fuente se conservan en fonts. Su contenido está en HTML y se restaura desde los párrafos al abrirla, también después de las dos quemas. El corazón al final se conserva. Puedes editar los párrafos en LETTER_PARAGRAPHS, al principio de app.js.
 
 ## Si no aparecen la celebración o los botones
 Reemplaza TODOS los archivos del sitio, especialmente birthday.html: subir celebration.js solo no hace que un HTML antiguo lo utilice. Los cinco archivos deben estar juntos en la carpeta publicada.
@@ -27,4 +27,4 @@ La llama ya está encendida sobre un cielo oscuro. Al tocarla se expande la luz 
 La música se activa voluntariamente en la segunda página. Se respeta la preferencia del dispositivo de reducir el movimiento.
 
 ## Verificación
-Sintaxis de JavaScript, dibujo de Canvas, dos ciclos completos de quema, bloqueo del tercer intento y apertura/cierre final y conservación de los cinco párrafos comprobados, también con movimiento reducido. El diseño completo todavía no se ha verificado en un navegador real.
+Sintaxis de JavaScript, dibujo de Canvas, dos ciclos completos de quema, bloqueo del tercer intento y apertura/cierre final y conservación de los cinco párrafos comprobados. Se comparó también la imagen de ambas quemas al mismo tiempo de animación y se comprobó que un cierre tardío de la primera no interrumpe la segunda, también con movimiento reducido. El diseño completo todavía no se ha verificado en un navegador real.
