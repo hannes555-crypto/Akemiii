@@ -104,12 +104,14 @@ if(!isBirthday){
   const envelope=$('openLetter'),dialog=$('letterDialog');
   LETTER_PARAGRAPHS.forEach(text=>{const p=document.createElement('p');p.textContent=text;$('letterBody').append(p);});
   $('blankLetter').hidden=LETTER_PARAGRAPHS.length>0;
-  envelope.addEventListener('click',()=>{
+  function openEnvelope(){
     if(envelope.disabled)return;
     envelope.disabled=true;envelope.classList.add('opening');
     if(musicOn)playNotes([76,79,84],.14);
     setTimeout(()=>{dialog.showModal();$('closeLetter').focus();},reduceMotion?0:650);
-  });
+  }
+  envelope.addEventListener('click',openEnvelope);
+  $('readLetter').addEventListener('click',openEnvelope);
   $('closeLetter').addEventListener('click',()=>dialog.close());
   dialog.addEventListener('click',event=>{if(event.target===dialog){const b=dialog.getBoundingClientRect();if(event.clientX<b.left||event.clientX>b.right||event.clientY<b.top||event.clientY>b.bottom)dialog.close();}});
   dialog.addEventListener('close',()=>{envelope.disabled=false;envelope.classList.remove('opening');envelope.focus();});
