@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#100a18">
+<title>¡Felicidades, Akemi!</title><link rel="stylesheet" href="styles.css"><script src="app.js" defer></script>
+</head>
+<body data-page="birthday">
+<main class="birthday" id="game">
+  <button id="sound" class="sound" aria-pressed="false" aria-label="Activar música">♫ <span>SONIDO OFF</span></button>
+  <header class="birthday-heading"><p class="dedication">HOY LA LUZ ES PARA TI</p><h1>¡Felicidades,<br><em>Akemi!</em></h1><p>Que este nuevo año te regale mil razones para sonreír.</p></header>
+  <div class="cake-space"><canvas id="world" width="400" height="270" aria-label="Pastel de cumpleaños de dos pisos con fresas y velitas encendidas"></canvas></div>
+  <section class="letter-invitation" aria-label="Una carta para Akemi"><p>Hay algo más para ti…</p><button class="envelope" id="openLetter" aria-label="Abrir tu carta" aria-haspopup="dialog"><span class="envelope-back"></span><span class="paper-peek">Para Akemi ♡</span><span class="envelope-front"></span><span class="envelope-flap"></span><span class="seal">♥</span></button><span class="envelope-hint">TOCA EL SOBRE</span></section>
+  <a class="replay" href="index.html">↺ Volver a la primera luz</a>
+</main>
+<dialog id="letterDialog" aria-labelledby="letterTitle"><article class="letter-paper"><button id="closeLetter" class="close-letter" aria-label="Cerrar carta">×</button><p class="letter-label">UNA CARTA PARA TI</p><h2 id="letterTitle">Querida Akemi,</h2><div id="letterBody" class="letter-body"></div><div id="blankLetter" class="blank-letter" aria-label="Carta pendiente de completar"><span></span><span></span><span></span><span></span></div><p class="letter-heart">♡</p></article></dialog>
+</body></html>

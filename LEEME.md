@@ -1,26 +1,26 @@
-# Cumpleaños de Akemi · Pixel art
-
-Sitio estático con JavaScript, Canvas 2D y CSS separados. Sin compilación, instalaciones ni dependencias externas.
+# Para Akemi · Una luz en la oscuridad
 
 ## Abrir
-Descomprime el ZIP y abre index.html con tu navegador. Mantén styles.css y app.js en la misma carpeta.
+Descomprime el ZIP. Abre index.html y toca la llama: irá a birthday.html.
+Mantén los cuatro archivos del sitio en la misma carpeta.
 
 ## Archivos
-- index.html: estructura y controles accesibles.
-- styles.css: diseño adaptable, colores, tipografía y transiciones.
-- app.js: ilustraciones originales de píxeles, llama, partículas, interacción y música sintetizada.
+- index.html: pantalla negra, frase y llama interactiva.
+- birthday.html: pastel, celebración y sobre con carta.
+- styles.css: estilos separados, transición de luz y animación del sobre.
+- app.js: dibujo en Canvas, fuego, partículas, navegación, carta y música opcional.
 
-## Publicar en GitHub Pages
-Sube index.html, styles.css y app.js a la raíz de tu repositorio. Activa GitHub Pages para publicar esa carpeta. Sube los archivos descomprimidos, no solamente este ZIP.
+## Actualizar GitHub
+Reemplaza los archivos anteriores por index.html, birthday.html, styles.css y app.js en la carpeta publicada del repositorio. Sube los archivos descomprimidos. Conserva los cuatro juntos; birthday.html es una página nueva que también debes subir.
 
-## Personalizar
-En app.js, edita GREETING para cambiar el nombre y el subtítulo. El mensaje final está en el elemento con id="wish" de index.html. Los colores generales están al principio de styles.css.
+## Carta pendiente
+El sobre ya se abre y cierra. Por ahora la hoja tiene el encabezado «Querida Akemi,» y líneas vacías. El texto se añadirá cuando lo envíes.
+En app.js, LETTER_PARAGRAPHS es una lista: cada texto entre comillas se muestra como un párrafo. Usa una lista vacía para dejar la carta sin contenido.
 
-## Secuencia
-1. Toca la vela o el botón para encenderla.
-2. Se ilumina la escena, aparecen destellos y se revela el pastel con confeti.
-3. Toca «Pedir un deseo» para apagar las velitas y mostrar el mensaje final.
-4. El botón de sonido activa una melodía original sintetizada. Empieza desactivado.
-5. «Volver al principio» permite repetir la sorpresa.
+## Animación
+La llama ya está encendida sobre negro. Al tocarla se expande la luz y se abre la segunda página. El pastel aparece con rayos, cuatro ráfagas de confeti y velitas animadas. A continuación aparece un sobre flotante; al tocarlo se levanta la solapa y se abre la carta. Puedes cerrarla con la cruz o Escape.
 
-Incluye navegación por teclado, nombres accesibles para controles y una versión con menos movimiento cuando el dispositivo lo solicita.
+La música se activa voluntariamente en la segunda página. Se respeta la preferencia del dispositivo de reducir el movimiento.
+
+## Verificación
+Sintaxis de JavaScript, dibujo de Canvas y secuencia de navegación/apertura/cierre comprobados. El diseño completo todavía no se ha verificado en un navegador real.

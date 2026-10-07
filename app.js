@@ -1,13 +1,15 @@
 'use strict';
 // Cambia aquí el nombre y los mensajes de cumpleaños.
-const GREETING = { name: 'Akemi', subtitle: 'Un nuevo año de aventuras, risas y cosas bonitas.' };
+// Añadiremos tu carta aquí cuando me envíes el texto. Cada elemento es un párrafo.
+const LETTER_PARAGRAPHS = [];
+const isBirthday = document.body.dataset.page === 'birthday';
 const $ = (id) => document.getElementById(id);
 const canvas = $('world');
 const ctx = canvas.getContext('2d');
 ctx.imageSmoothingEnabled = false;
 const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const colors = ['#eaa3b9','#f6d598','#a89aca','#a8c7b5','#fff0d8'];
-let state = 'intro', started = 0, lastTime = 0, elapsed = 0, particles = [], audio = null, musicTimer = null, musicOn = false;
+let state = isBirthday ? 'birthday' : 'intro', started = 0, lastTime = 0, elapsed = 0, particles = [], audio = null, musicTimer = null, musicOn = false;
 let seed = 26;
 function random(){ seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; }
 const stars = Array.from({length:68},()=>({x:12+random()*376,y:8+random()*196,size:random()>.83?2:1,phase:random()*6.28}));
@@ -24,15 +26,6 @@ function candle(x,y,h,time,lit=true){
   rect(x-6,y,12,h,'#694451');rect(x-5,y,10,h-2,'#d88b9d');rect(x-4,y+1,3,h-3,'#f5c6c2');rect(x+3,y+1,2,h-3,'#aa5d79');
   for(let k=4;k<h-3;k+=10){rect(x-1,y+k,5,3,'#efb8b7');rect(x-4,y+k+3,3,2,'#efb8b7');}
   rect(x-5,y,10,3,'#ffdfc7');rect(x-2,y-5,2,6,'#554044');if(lit)flame(x,y-7,time);
-}
-function pedestal(time,light){
-  glow(200,155,87,.06+light*.1);ellipse(200,220,79,10,'#090812');
-  // Candelabro de latón con reflejos y escalones.
-  rect(161,207,78,7,'#3a2733');rect(165,203,70,6,'#866044');rect(170,200,60,4,'#cb9560');rect(178,196,44,5,'#77503f');rect(185,192,30,5,'#b48351');
-  rect(195,175,10,19,'#815640');rect(196,176,3,16,'#dab279');rect(192,171,16,7,'#bc8b5b');rect(182,165,36,6,'#614235');rect(178,158,44,7,'#b38153');rect(181,157,38,3,'#e7bd81');
-  candle(200,99,59,time,light>0);rect(190,150,20,7,'#f2c8b1');rect(187,154,26,3,'#ab7379');rect(202,105,3,16,'#ffe1c6');rect(205,109,2,7,'#f6c1b2');
-  if(light>0)glow(200,87,68,.21*light);
-  rect(155,218,90,1,'#624758');rect(172,226,57,1,'#392a40');
 }
 function strawberry(x,y){rect(x-4,y-3,8,7,'#713247');rect(x-3,y-4,6,9,'#c35470');rect(x-2,y+5,4,2,'#a64160');rect(x-2,y-3,2,5,'#ee8f99');rect(x+1,y,1,1,'#ffd3a8');rect(x-1,y+3,1,1,'#ffd3a8');rect(x-1,y-7,2,4,'#9cae85');rect(x-4,y-5,8,2,'#779578');}
 function cake(time,reveal){
@@ -67,23 +60,63 @@ function background(time,celebrate){
     for(let i=0;i<16;i++){const x=28+i*23,y=16+Math.sin(i/15*Math.PI)*17;rect(x,y,23,1,'#71506a');if(i%2===0){for(let r=0;r<9;r++)rect(x+5+r/2,y+2+r,10-r,1,colors[(i/2)%colors.length]);}}
   }
 }
-function frame(ms){const time=ms/1000;const dt=Math.min((ms-lastTime)/1000,.04);lastTime=ms;elapsed=time;ctx.clearRect(0,0,400,270);background(time,state==='birthday'||state==='wish');
-  if(state==='intro'||state==='lighting'){const progress=state==='lighting'?Math.min(1,(time-started)/1.1):0;pedestal(time,progress);if(progress>0&&!reduceMotion){for(let i=0;i<7;i++){const a=time*1.8+i*.9;cross(200+Math.cos(a)*(25+progress*30),102+Math.sin(a)*34-progress*15,1,'#f4cf99');}}}
-  else{cake(time,Math.min(1,(time-started)/.85));if(state==='wish'&&time-started<2){ctx.globalAlpha=Math.max(0,1-(time-started)/2);for(let i=0;i<3;i++)rect(183+i*18+Math.sin(time*3+i)*2,64-(time-started)*16,2,7,'#ad9db1');ctx.globalAlpha=1;}}
-  drawParticles(dt,time);requestAnimationFrame(frame);
+// La primera página solo muestra fuego sobre negro absoluto.
+function lonelyFire(time) {
+  const pulse = reduceMotion ? 1 : 1 + Math.sin(time * 2.8) * .07;
+  const progress = state === 'lighting' ? Math.min(1, (time-started)/1.4) : 0;
+  glow(200,140,65 + progress*100,.14 + progress*.2);
+  ctx.save();ctx.translate(200,146);ctx.scale(pulse*(1+progress*1.7),pulse*(1+progress*1.7));
+  flame(0,0,time,2.2);ctx.restore();
+  if (!reduceMotion) for(let i=0;i<14;i++){
+    const age=(time*.24+i/14)%1;
+    const x=200+Math.sin(time*1.2+i*2.4)*(7+age*24);
+    ctx.globalAlpha=(1-age)*.65;
+    rect(x,131-age*79,age>.6?1:2,2,i%3?'#ffc879':'#ef8852');
+  }
+  ctx.globalAlpha=1;
 }
-let transitionTimer;
-function setStage(next){state=next;$('game').dataset.stage=next;}
-function reveal(){setStage('birthday');started=elapsed;$('chapter').textContent='CAPÍTULO 02 · HOY EL MUNDO CELEBRA';$('kicker').textContent='Esta pequeña sorpresa es para ti';$('title').replaceChildren(document.createTextNode('¡Felicidades,'),document.createElement('br'));const name=document.createElement('em');name.textContent=GREETING.name+'!';$('title').append(name);$('subtitle').textContent=GREETING.subtitle;$('actionText').textContent='PEDIR UN DESEO';$('hint').textContent='Piensa en algo bonito y apaga las velitas';$('action').disabled=false;$('candle').disabled=false;$('candle').setAttribute('aria-label','Apagar las velitas y pedir un deseo');canvas.setAttribute('aria-label','Pastel de cumpleaños de dos pisos con fresas, tres velitas y confeti');document.querySelector('.heading').classList.add('change');burst();if(musicOn)playNotes([72,76,79,84],.14);}
-function activate(){
-  if(state==='intro'){setStage('lighting');started=elapsed;$('action').disabled=true;$('candle').disabled=true;$('actionText').textContent='UN POQUITO DE MAGIA…';$('hint').textContent='Tu sorpresa está a punto de aparecer';if(musicOn)playNotes([72,79,84],.12);transitionTimer=setTimeout(reveal,reduceMotion?350:1800);}
-  else if(state==='birthday'){setStage('wish');started=elapsed;$('wish').hidden=false;$('replay').hidden=false;$('candle').disabled=true;$('replay').focus({preventScroll:true});$('subtitle').textContent='Deseo enviado a las estrellas. ✦';canvas.setAttribute('aria-label','Pastel de cumpleaños con las velitas apagadas');burst(100);if(musicOn)playNotes([76,79,84,88],.16);}
+// Rayos y pequeñas explosiones de píxeles acompañan la llegada del pastel.
+let nextBurst = .2, burstCount = 0;
+function frame(ms){
+  const time=ms/1000,dt=Math.min((ms-lastTime)/1000,.04);lastTime=ms;elapsed=time;
+  ctx.clearRect(0,0,400,270);
+  if(!isBirthday) lonelyFire(time);
+  else {
+    background(time,true);
+    const reveal=reduceMotion?1:Math.min(1,time/1.25);
+    if(!reduceMotion&&time<2.5){ctx.save();ctx.translate(200,135);ctx.globalAlpha=Math.max(0,.2*(1-time/2.5));for(let i=0;i<12;i++){ctx.rotate(Math.PI/6);rect(15,-1,145,2,'#ffc589');}ctx.restore();}
+    cake(time,1-Math.pow(1-reveal,3));
+    if(time>=nextBurst&&burstCount<4){burst(65);nextBurst=time+.7;burstCount++;}
+    drawParticles(dt,time);
+  }
+  requestAnimationFrame(frame);
 }
-$('action').addEventListener('click',activate);$('candle').addEventListener('click',activate);
-$('replay').addEventListener('click',()=>{clearTimeout(transitionTimer);setStage('intro');particles=[];$('chapter').textContent='CAPÍTULO 01 · UNA PEQUEÑA MAGIA';$('kicker').textContent='Hay una sorpresa esperándote';$('title').innerHTML='Todo empieza<br>con una <em>chispa.</em>';$('subtitle').textContent='A veces, una pequeña luz lo cambia todo.';$('actionText').textContent='ENCENDER LA VELITA';$('hint').textContent='Toca la vela · guarda un deseo';$('wish').hidden=true;$('replay').hidden=true;$('action').disabled=false;$('candle').disabled=false;$('candle').setAttribute('aria-label','Toca la vela para descubrir tu sorpresa');canvas.setAttribute('aria-label','Una vela de píxeles sobre un candelabro, bajo un cielo nocturno');document.querySelector('.heading').classList.remove('change');$('action').focus({preventScroll:true});});
+if(!isBirthday){
+  $('candle').addEventListener('click',()=>{
+    if(state!=='intro')return;
+    state='lighting';started=elapsed;$('candle').disabled=true;
+    document.body.classList.add('leaving');$('hint').textContent='Gracias por ser esa luz.';
+    setTimeout(()=>{window.location.href='birthday.html';},reduceMotion?100:1450);
+  });
+  // El navegador puede restaurar la página desde su caché al retroceder.
+  window.addEventListener('pageshow',()=>{state='intro';document.body.classList.remove('leaving');$('candle').disabled=false;$('hint').textContent='Toca la luz. Esto es para ti.';});
+}else{
+  const envelope=$('openLetter'),dialog=$('letterDialog');
+  LETTER_PARAGRAPHS.forEach(text=>{const p=document.createElement('p');p.textContent=text;$('letterBody').append(p);});
+  $('blankLetter').hidden=LETTER_PARAGRAPHS.length>0;
+  envelope.addEventListener('click',()=>{
+    if(envelope.disabled)return;
+    envelope.disabled=true;envelope.classList.add('opening');
+    if(musicOn)playNotes([76,79,84],.14);
+    setTimeout(()=>{dialog.showModal();$('closeLetter').focus();},reduceMotion?0:650);
+  });
+  $('closeLetter').addEventListener('click',()=>dialog.close());
+  dialog.addEventListener('click',event=>{if(event.target===dialog){const b=dialog.getBoundingClientRect();if(event.clientX<b.left||event.clientX>b.right||event.clientY<b.top||event.clientY>b.bottom)dialog.close();}});
+  dialog.addEventListener('close',()=>{envelope.disabled=false;envelope.classList.remove('opening');envelope.focus();});
+}
 // Música original de ocho bits, generada con Web Audio. Solo suena al activarla.
 function tone(note,when,duration=.23){const oscillator=audio.createOscillator(),gain=audio.createGain();oscillator.type='triangle';oscillator.frequency.value=440*Math.pow(2,(note-69)/12);gain.gain.setValueAtTime(0,when);gain.gain.linearRampToValueAtTime(.045,when+.015);gain.gain.exponentialRampToValueAtTime(.001,when+duration);oscillator.connect(gain);gain.connect(audio.destination);oscillator.start(when);oscillator.stop(when+duration+.02);}
 function playNotes(notes,spacing){notes.forEach((n,i)=>tone(n,audio.currentTime+i*spacing));}
-$('sound').addEventListener('click',async()=>{try{if(!audio)audio=new(window.AudioContext||window.webkitAudioContext)();if(musicOn){musicOn=false;clearInterval(musicTimer);await audio.suspend();}else{await audio.resume();musicOn=true;let step=0;const melody=[72,76,79,76,74,77,81,77,76,79,84,79,74,77,79,71];tone(melody[step++],audio.currentTime);musicTimer=setInterval(()=>{tone(melody[step%melody.length],audio.currentTime,.4);if(step%4===0)tone(melody[step%melody.length]-24,audio.currentTime,.8);step++;},360);} $('sound').setAttribute('aria-pressed',String(musicOn));$('sound').setAttribute('aria-label',musicOn?'Desactivar música':'Activar música');$('sound').querySelector('span').textContent=musicOn?'SONIDO ON':'SONIDO OFF';}catch{$('sound').querySelector('span').textContent='NO DISPONIBLE';}});
+if(isBirthday) $('sound').addEventListener('click',async()=>{try{if(!audio)audio=new(window.AudioContext||window.webkitAudioContext)();if(musicOn){musicOn=false;clearInterval(musicTimer);await audio.suspend();}else{await audio.resume();musicOn=true;let step=0;const melody=[72,76,79,76,74,77,81,77,76,79,84,79,74,77,79,71];tone(melody[step++],audio.currentTime);musicTimer=setInterval(()=>{tone(melody[step%melody.length],audio.currentTime,.4);if(step%4===0)tone(melody[step%melody.length]-24,audio.currentTime,.8);step++;},360);} $('sound').setAttribute('aria-pressed',String(musicOn));$('sound').setAttribute('aria-label',musicOn?'Desactivar música':'Activar música');$('sound').querySelector('span').textContent=musicOn?'SONIDO ON':'SONIDO OFF';}catch{$('sound').querySelector('span').textContent='NO DISPONIBLE';}});
 document.addEventListener('visibilitychange',()=>{if(audio&&musicOn){if(document.hidden){audio.suspend();}else{audio.resume();}}});
 requestAnimationFrame(frame);
